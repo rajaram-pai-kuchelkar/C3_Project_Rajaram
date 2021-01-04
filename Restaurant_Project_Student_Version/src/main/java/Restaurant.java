@@ -8,6 +8,7 @@ public class Restaurant {
     public LocalTime openingTime;
     public LocalTime closingTime;
     private List<Item> menu = new ArrayList<Item>();
+    private List<Item> selectedItems = new ArrayList<Item>();
 
     public Restaurant(String name, String location, LocalTime openingTime, LocalTime closingTime) {
         this.name = name;
@@ -16,9 +17,37 @@ public class Restaurant {
         this.closingTime = closingTime;
     }
 
+
+    public List<Item> getSelectedItems() {
+        return selectedItems;
+    }
+
+
+    public int selectMenuItemByName(String itemName){
+        selectedItems.add(findItemByName(itemName));
+        int orderTotal=0;
+        for ( Item item : selectedItems )
+            orderTotal = orderTotal + item.getPrice();
+
+        return orderTotal;
+    }
+
+    public int uncheckSelectedMenuItemByName(String itemName) {
+        selectedItems.remove(findItemByName(itemName));
+        int orderTotal=0;
+        for ( Item item : selectedItems )
+            orderTotal = orderTotal + item.getPrice();
+
+        return orderTotal;
+    }
+
+
     public List<Item> getMenu() {
+
+        selectedItems.clear();
         return this.menu;
     }
+
 
     public boolean isRestaurantOpen() {
 
