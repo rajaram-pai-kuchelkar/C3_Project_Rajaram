@@ -16,6 +16,10 @@ public class Restaurant {
         this.closingTime = closingTime;
     }
 
+    public List<Item> getMenu() {
+        return this.menu;
+    }
+
     public boolean isRestaurantOpen() {
 
         if(getCurrentTime().isAfter(this.openingTime) && getCurrentTime().isBefore(this.closingTime))
@@ -26,9 +30,7 @@ public class Restaurant {
 
     public LocalTime getCurrentTime(){ return  LocalTime.now(); }
 
-    public List<Item> getMenu() {
-        return this.menu;
-    }
+
 
     private Item findItemByName(String itemName){
         for(Item item: menu) {
@@ -63,5 +65,6 @@ public class Restaurant {
     public String getName() {
         return name;
     }
+
 
 }

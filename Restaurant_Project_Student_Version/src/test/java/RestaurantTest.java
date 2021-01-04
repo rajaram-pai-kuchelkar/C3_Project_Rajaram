@@ -17,7 +17,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class RestaurantTest {
     Restaurant restaurant;
-
+    int orderCost;
     //>>>>>>>>>>>>>>>>>>>>>>>>>OPEN/CLOSED<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     //-------FOR THE 2 TESTS BELOW, YOU MAY USE THE CONCEPT OF MOCKING, IF YOU RUN INTO ANY TROUBLE
     @BeforeEach
@@ -27,6 +27,8 @@ class RestaurantTest {
         restaurant =new Restaurant("Amelie's cafe","Chennai",openingTime,closingTime);
         restaurant.addToMenu("Sweet corn soup",119);
         restaurant.addToMenu("Vegetable lasagne", 269);
+        orderCost = restaurant.selectMenuItemByName("Sweet corn soup");
+        orderCost = restaurant.selectMenuItemByName("Vegetable lasagne");
 
     }
 
@@ -87,4 +89,33 @@ class RestaurantTest {
                 ()->restaurant.removeFromMenu("French fries"));
     }
     //<<<<<<<<<<<<<<<<<<<<<<<MENU>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    // TDD
+    // upon selecting item from menu, it should add the item to selected list and should
+    // return orderTotal of all the items prices in the selected list.
+    // upon deselecting item selected in menu, the item should be removed from selected list
+    // and should update the orderTotal accordingly.
+    // when menu is called, the selected items list should be clear from any selections
+
+    @Test  // TDD fail test for selecting a item
+    public void upon_selecting_item_from_menu_get_order_total() {
+        int numberOfselectedItems = restaurant.getSelectedItems().size();
+        assertThat(2,equalTo(numberOfselectedItems));
+        assertEquals(388,orderCost);
+    }
+
+    @Test  // TDD fail test for deselecting a item
+    public void upon_unchecking_selected_menu_item_get_order_total() {
+
+        orderCost = restaurant.uncheckSelectedMenuItemByName("Sweet corn soup");
+        int numberOfselectedItems = restaurant.getSelectedItems().size();
+        assertThat(1,equalTo(numberOfselectedItems));
+        assertEquals(269,orderCost);
+    }
+
+    @Test // TDD fail test for initializing selected items list
+    public void when_get_menu_is_called_selected_menu_items_should_be_initialized_to_empty(){
+        restaurant.getMenu();
+        assertEquals(0,restaurant.getSelectedItems().size());
+    }
+
 }
